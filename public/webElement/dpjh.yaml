@@ -1,0 +1,25 @@
+# 点评计划页面元素
+新增计划:
+  by: css selector
+  locator: button:nth-child(5) > span
+  action: click
+搜索:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[1]/div[2]/div[3]/input
+  action: send_keys
+UserImage:
+  by: css selector
+  locator: .el-icon-user
+  action: click
+Logout:
+  by: xpath
+  locator: //body/ul/li[1]
+  action: click
+LogoutN:
+  by: xpath
+  locator: //button[@class="w-button w-button--default w-button--small"]
+  action: click
+LogoutY:
+  by: css selector
+  locator: div.w-message-box__btns > button.w-button.w-button--default.w-button--small.w-button--primary
+  action: click

@@ -1,0 +1,25 @@
+# 临床药师智慧平台界面元素
+cfdpModule:
+  by: xpath
+  locator: //*[@id='app']/div/div[2]/span[1]/*[name()='svg']
+  action: click
+yhglModule:
+  by: xpath
+  locator: //*[@id='app']/div/div[2]/span[2]/*[name()='svg']
+  action: click
+UserImage:
+  by: css selector
+  locator: .el-icon-user
+  action: click
+Logout:
+  by: xpath
+  locator: //body/ul/li[1]
+  action: click
+LogoutN:
+  by: xpath
+  locator: //button[@class="w-button w-button--default w-button--small"]
+  action: click
+LogoutY:
+  by: css selector
+  locator: div.w-message-box__btns > button.w-button.w-button--default.w-button--small.w-button--primary
+  action: click

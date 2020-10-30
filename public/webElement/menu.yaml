@@ -1,0 +1,56 @@
+# 首页菜单元素
+首页:
+  by: css selector
+  locator: ul > li:nth-child(1)
+  action:
+计划管理:
+  by: css selector
+  locator: ul > li:nth-child(2)
+  action:
+点评计划:
+  by: css selector
+  locator: body > div:nth-child(6) > ul > li:nth-child(1) > span
+抽取结果:
+  by: css selector
+  locator: body > div:nth-child(6) > ul > li:nth-child(2) > span
+点评工作:
+  by: css selector
+  locator: ul > li:nth-child(3)
+  action:
+门急诊处方点评:
+#  by: css selector
+#  locator:
+  by: xpath
+  locator: /html/body/div[3]/ul/li[1]/span
+住院医嘱点评:
+#  by: css selector
+#  locator: body > div:nth-child(7) > ul > li:nth-child(2) > span
+  by: xpath
+  locator: /html/body/div[3]/ul/li[2]/span
+点评结果:
+  by: css selector
+  locator: ul > li:nth-child(4)
+  action:
+点评工作表:
+#  by: css selector
+#  locator: body > div:nth-child(7) > ul > li:nth-child(1) > span
+  by: xpath
+  locator: /html/body/div[2]/ul/li[1]/span
+门急诊处方:
+#  by: css selector
+#  locator: body > div:nth-child(7) > ul > li:nth-child(2) > span
+  by: xpath
+  locator: /html/body/div[2]/ul/li[2]/span
+住院病历:
+#  by: css selector
+#  locator: body > div:nth-child(7) > ul > li:nth-child(3) > span
+  by: xpath
+  locator: /html/body/div[2]/ul/li[3]/span
+结果公示:
+  by: css selector
+  locator: ul > li:nth-child(5)
+  action:
+配置:
+  by: css selector
+  locator: ul > li:nth-child(6)
+  action:

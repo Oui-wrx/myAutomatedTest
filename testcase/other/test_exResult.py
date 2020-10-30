@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Author : wrx
 import allure
-import ddt
 import pytest
 
 from public.page_obj.exResultsPage import ExResultsPage

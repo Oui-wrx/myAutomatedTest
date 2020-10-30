@@ -1,0 +1,10 @@
+首页-无: http://172.16.0.166:8034/index.html#/home
+计划管理-点评计划: http://172.16.0.166:8034/index.html#/ReviewPlan/selectPlan
+计划管理-抽取结果: http://172.16.0.166:8034/index.html#/ReviewPlan/extractResults
+点评工作-门急诊处方点评: http://172.16.0.166:8034/index.html#/Outpatient
+点评工作-住院医嘱点评: http://172.16.0.166:8034/index.html#/Review/Hospitalization
+#点评结果-点评工作表: http://172.16.0.166:8034/index.html#/ReviewResult/LookWorksheet
+#点评结果-门急诊处方: http://172.16.0.166:8034/index.html#/ReviewResult/ResultOutpatient
+#点评结果-住院病历: http://172.16.0.166:8034/index.html#/ResultHospitalization
+结果公示-无: http://172.16.0.166:8034/index.html#/PublicityResult
+配置-无: http://172.16.0.166:8034/index.html#/FunctionSwitch

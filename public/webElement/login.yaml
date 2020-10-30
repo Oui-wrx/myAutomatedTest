@@ -1,0 +1,17 @@
+# 登录页面元素
+UserName:
+  by: id
+  locator: userName
+  action: send_keys
+PassWord:
+  by: id
+  locator: password
+  action: send_keys
+RemeberMe:
+  by: xpath
+  locator: //*[@id="loginForm"]/label[3]/span[1]/span
+  action: click
+Login:
+  by: id
+  locator: submit
+  action: click

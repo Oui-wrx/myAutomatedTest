@@ -1,0 +1,16 @@
+# 首页页面元素
+Home:
+  details: 回到临床药学智慧平台
+  by: css selector
+  locator: div.userIcon > span > i
+  action: click
+UserImage:
+  details: 用户头像
+  by: css selector
+  locator: .username
+  action: click
+Logout:
+  details: 退出登录文字链接
+  by: css selector
+  locator: .el-dropdown-menu__item
+  action: click

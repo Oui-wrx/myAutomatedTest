@@ -20,7 +20,6 @@ class DpjhPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
         self.driver.get("http://172.16.0.166:8034/index.html#/ReviewPlan/selectPlan")
-        self.driver.refresh()
         sleep(2)
 
     # 新建计划类型元素

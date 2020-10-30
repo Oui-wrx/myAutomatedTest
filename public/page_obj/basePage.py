@@ -2,9 +2,7 @@
 # @Author  : wrx
 from time import sleep
 
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver import ActionChains
+from selenium.common.exceptions import NoSuchElementException, TimeoutException, JavascriptException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -16,71 +14,75 @@ class BasePage:
     """
     基础页面类，用于其他页的继承
     """
-
     def __init__(self, driver):
         self.driver = driver
 
+    def click_ok(self):
+        """
+        适用于仅有确定的弹框
+        """
+        self.driver.find_element(By.CSS_SELECTOR, "div.el-message-box__btns > button").click()
+
+    def click_cancell(self):
+        """
+        用于弹框中出现取消的情况
+        """
+        self.driver.find_element(By.CSS_SELECTOR, "div.w-message-box__btns > button").click()
+
+    def click_confirm(self):
+        """
+        用于弹框出现确定的情况
+        """
+        # sleep(2)
+        self.driver.find_element(By.CSS_SELECTOR, "div.w-message-box__btns > button + button").click()
+
     def open(self):
         """
-        内部调用_open私有函数
-        :return:
+        打开登录入口
         """
         self.driver.get(url)
-        # self.driver.implicity_wait(10)
 
-    def on_page(self):
+    def find_element(self, eleName):
         """
-        url地址断言
-        :return:url地址
+        根据定位器  查找单个元素
         """
-        # return self.driver.current_url == (self.base_url + self.url)
-        pass
-
-    def find_element(self, *loc):
-        """
-        单个元素定位
-        :param loc:
-        :return:
-        """
+        loc = (eleName["by"], eleName["locator"])
+        print(loc)
         try:
-            # 显示等待  10：超时的总时长 0.5：循环去查询的间隙时间，默认0.5秒
             WebDriverWait(self.driver, 10, 0.5).until(EC.visibility_of_element_located(loc))
-            # driver.implicity_wait(10) 实际上浏览器会在你自己设定的时间内部断的刷新页面去寻找我们需要的元素
             return self.driver.find_element(*loc)
+        except TimeoutException:
+            return False
         except NoSuchElementException:
             return False
 
-    def find_elements(self, *loc):
+    def find_elements(self, eleName):
         """
-        多个元素定位
-        :param loc: 传入元素的属性
-        :return: 定位到的元素
+        根据定位器  查找多个元素
         """
-        print(*loc)
+        loc = (eleName["by"], eleName["locator"])
         try:
+            WebDriverWait(self.driver, 10, 0.5).until(EC.visibility_of_element_located(loc))
             return self.driver.find_elements(*loc)
-        except:
-            print("元素没找到")
+        except TimeoutException:
+            return False
+        except NoSuchElementException:
             return False
 
-    def script(self, src):
+    def on_page(self, Url):
         """
-        提供调用JavaScript方法
-        :param src: 脚本文件
-        :return: javaScript脚本
+        判断当前页与预期一致
         """
-        return self.driver.execute_script(src)
+        return self.driver.current_url == Url
 
-    def send_key(self, *loc, value):
+    def execute_script_click(self, element):
         """
-        重定义send_keys方法
-        :param loc:
-        :param value:
-        :return:
+        使用js执行点击
         """
-        # self.find_element(*loc).click()
-        self.find_element(*loc).clear().send_keys(value)
-        # self.find_element(*loc)
+        try:
+            self.driver.execute_script("arguments[0].click();", element)
+        except JavascriptException:
+            element.click()
 
     def switch_frame(self, loc):
         """
@@ -115,44 +117,12 @@ class BasePage:
         """
         return self.driver.switchTo().alert()
 
-    def click_ok_close(self):
-        """
-        点击确定，关闭弹框
-        :return:
-        """
-        self.driver.find_element(By.XPATH, "//button/span[contains(text(), '确定')]").click()
-
     def click_nok_close(self):
         """
         点击取消，关闭弹框
         :return:
         """
         self.driver.find_element(By.XPATH, "//button/span[contains(text(), '取消')]").click()
-
-    def find_element_by_text(self, text):
-        """
-        根据关键字定位元素
-        待测试
-        :param text:
-        :return:
-        """
-        s = "[contains(text(), '" + text + "')]"
-        if self.find_element(By.XPATH, "//div/p" + s):
-            return self.find_element(By.XPATH, "//div/p" + s)
-        elif self.find_element(By.XPATH, "//li/div" + s):
-            return self.find_element(By.XPATH, "//li/div" + s)
-        elif self.find_element(By.XPATH, "//button/span" + s):
-            return self.find_element(By.XPATH, "//button/span" + s)
-        elif self.find_element(By.XPATH, "//li" + s):
-            return self.find_element(By.XPATH, "//li" + s)
-        elif self.find_element(By.XPATH, "//span" + s):
-            return self.find_element(By.XPATH, "//span" + s)
-        elif self.find_element(By.XPATH, "//div" + s):
-            return self.find_element(By.XPATH, "//div" + s)
-        elif self.find_element(By.XPATH, "//button" + s):
-            return self.find_element(By.XPATH, "//button" + s)
-        else:
-            return 0
 
     def find_elements_by_text(self, text):
         """
@@ -236,12 +206,6 @@ class BasePage:
         # 点击目标的日
         self.find_element(By.XPATH, "//tr/td/div/span[contains(text(), '20')]").click()
 
-    # def
-    # 滑动条操作
-
-    # def
-    # js操作
-
     def open_message(self):
         """
         打开消息
@@ -256,22 +220,11 @@ class BasePage:
         """
         return element.get_attribute('innerText')
 
-    def into_menu(self, parent, children=None):
+    def back(self):
         """
-        进入二级菜单
-        :param parent: 一级菜单
-        :param children: 二级菜单
-        :return: 进入二级菜单页
+        页面回退
         """
-        if children is None:
-            self.find_element_by_text(parent).click()
-        else:
-            pElement = self.find_element_by_text(parent)
-            ActionChains(self.driver).move_to_element(pElement).perform()
-            cElement = self.find_element_by_text(children)
-            self.driver.execute_script("arguments[0].click();", cElement)
-        sleep(5)
-        return self.driver.current_url
+        self.driver.back()
 
 
 if __name__ == '__main__':

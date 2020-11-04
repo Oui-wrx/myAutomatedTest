@@ -6,21 +6,29 @@ import allure
 import pytest
 
 from config.gVariable import planTaskName
-from public.models.myunit import MyUnit
 from public.page_obj.dpjhPage import DpjhPage
-
+from public.page_obj.main import Main
 
 plan_type = [1, 2]
+planName = ["天上人间", "抗菌药物点评"]
 
 
 @allure.feature("点评计划列表页测试用例")
 class Test_dpjh:
+    def setup(self):
+        self.dpjhPage = Main().goto_dpjh()
 
-    @allure.story("页面检查")
-    def test_page_check(self, go_login):
-        driver = go_login
-        dpjh_p = DpjhPage(driver)
-        pass
+    def teardown(self):
+        self.dpjhPage.get_driver().quit()
+
+    @allure.story("计划搜索")
+    @pytest.mark.parametrize("name", planName)
+    def test_search_by_keywords(self, name):
+        searchResult = self.dpjhPage.search_by_keywords(name)
+        if name == "抗菌药物点评":  # 存在的计划
+            pytest.assume(name in searchResult, "按关键字搜索计划有问题")
+        if name == "天上人间":  # 不存在的计划
+            pytest.assume(name not in searchResult, "按关键字搜索计划有问题")
 
     @allure.story("新增计划")
     # @pytest.mark.parametrize("type", plan_type)

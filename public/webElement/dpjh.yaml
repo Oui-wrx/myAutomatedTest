@@ -1,25 +1,45 @@
 # 点评计划页面元素
-新增计划:
-  by: css selector
-  locator: button:nth-child(5) > span
+全部计划:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[1]/div[1]/div/div[1]
   action: click
+我的计划:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[1]/div[1]/div/div[2]
+  action: click
+计划类型:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[1]/div[2]/div[1]/div[1]/input
+  action: click
+创建人:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[1]/div[2]/div[2]/div/input
+  action: click
+输入计划名称:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[1]/div[2]/div[3]/input
+  action: send_keys
 搜索:
   by: xpath
   locator: //*[@id="app"]/div/section/main/div/div[1]/div[2]/div[3]/input
   action: send_keys
-UserImage:
+新增计划:
   by: css selector
-  locator: .el-icon-user
+  locator: button:nth-child(5) > span
   action: click
-Logout:
+表格:
   by: xpath
-  locator: //body/ul/li[1]
-  action: click
-LogoutN:
+  locator: //*[@id="app"]/div/section/main/div/div[4]/div/div[3]/table/tbody
+  action: no
+每页条数:
   by: xpath
-  locator: //button[@class="w-button w-button--default w-button--small"]
+  locator: //*[@id="app"]/div/section/main/div/div[5]/div/span[2]/div/div[1]/input
   action: click
-LogoutY:
-  by: css selector
-  locator: div.w-message-box__btns > button.w-button.w-button--default.w-button--small.w-button--primary
+上一页:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[5]/div/button[1]
+  action: click
+下一页:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[5]/div/button[2]
   action: click

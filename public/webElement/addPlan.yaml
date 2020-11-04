@@ -1,0 +1,85 @@
+# 新增计划页面的元素（或编辑）:
+计划名称:
+  by: xpath
+  locator: //*[@id='app']/div/section/main/div/div[1]/div/div[1]/div/input
+  action: send_keys
+计划描述:
+  by: xpath
+  locator: //*[@id='app']/div/section/main/div/div[1]/div/div[2]/div/textarea
+  action: send_keys
+随机抽取份数:
+  by: xpath
+  locator: //*[@id='app']/div/section/main/div/div[2]/div/div[2]/div[2]/div[1]/div[1]/input
+  action: send_keys
+随机抽取%:
+  by: xpath
+  locator: //*[@id='app']/div/section/main/div/div[2]/div/div[2]/div[2]/div[1]/div[2]/input
+  action: send_keys
+每个科室份数:
+  by: xpath
+  locator: //*[@id='app']/div/section/main/div/div[2]/div/div[2]/div[2]/div[2]/div[1]/input
+  action: send_keys
+每个科室%:
+  by: xpath
+  locator: //*[@id='app']/div/section/main/div/div[2]/div/div[2]/div[2]/div[2]/div[2]/input
+  action: send_keys
+等间隔抽取份:
+  by: xpath
+  locator: //*[@id='app']/div/section/main/div/div[2]/div/div[2]/div[2]/div[3]/div[1]/input
+  action: send_keys
+随机抽取处方医生数:
+  by: xpath
+  locator: //*[@id='app']/div/section/main/div/div[2]/div/div[2]/div[2]/div[3]/div[2]/input
+  action: send_keys
+随机抽取处方医生单位:
+  by: xpath
+  locator: //*[@id='app']/div/section/main/div/div[2]/div/div[2]/div[2]/div[3]/div[3]/input
+  action: click
+随机抽取处方医生%:
+  by: xpath
+  locator: /html/body/div[5]/div[1]/div[1]/ul/li[1]/span
+  action: send_keys
+随机抽取处方医生位:
+  by: xpath
+  locator: /html/body/div[5]/div[1]/div[1]/ul/li[2]/span
+  action: send_keys
+随机抽取处方医生范围下限:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[2]/div/div[2]/div[2]/div[3]/div[4]/input
+  action: send_keys
+随机抽取处方医生范围上限:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[2]/div/div[2]/div[2]/div[3]/div[5]/input
+  action: send_keys
+每月定期抽取日:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[3]/div/div/div[2]/div[1]/div/input
+  action: send_keys
+每季度定期抽取日:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[3]/div/div/div[2]/div[2]/div/input
+  action: send_keys
+抽取时间类型:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[3]/div/div/div[2]/div[3]/div[1]/div/input
+  action: click
+就诊时间:
+  by: xpath
+  locator: /html/body/div[7]/div[1]/div[1]/ul/li[1]/span
+  action: click
+取消:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[5]/button[1]
+  action: click
+保存:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[5]/button[2]
+  action: click
+抽取:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[5]/button[3]
+  action: click
+更多抽取条件:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[2]/div/div[3]/p
+  action: click

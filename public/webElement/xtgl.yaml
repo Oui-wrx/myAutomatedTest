@@ -1,0 +1,5 @@
+# 系统管理页面的元素
+Home:
+  by: css selector
+  locator: div.userIcon > span > i
+  action:

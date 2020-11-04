@@ -10,44 +10,17 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from config.gVariable import planTaskName
+from public.models.read_yaml_data import read_yamlData
 from public.page_obj.basePage import BasePage
+from public.page_obj.mzPlanPage import PlanPage
+
+webElement = read_yamlData(r"\public\webElement\dpjh.yaml")
 
 
 class DpjhPage(BasePage):
     """
     点评计划列表页面
     """
-    def __init__(self, driver):
-        super().__init__(driver)
-        self.driver.get("http://172.16.0.166:8034/index.html#/ReviewPlan/selectPlan")
-        sleep(2)
-
-    # 新建计划类型元素
-    add_mz_loc = ("xpath", "//*[@id='app']/div/section/main/div/div[2]/div/div/div[2]/div/div[1]")
-    add_zy_loc = ("xpath", "//*[@id='app']/div/section/main/div/div[2]/div/div/div[2]/div/div[2]")
-    # 新建门诊计划元素
-    mz_plan_name_loc = ("xpath", "//*[@id='app']/div/section/main/div/div[1]/div/div[1]/div/input")
-    mz_plan_description_loc = ("xpath", "//*[@id='app']/div/section/main/div/div[1]/div/div[2]/div/textarea")
-    mz_extract_loc = ("xpath", "//*[@id='app']/div/section/main/div/div[2]/div/div[2]/div[2]/div[1]/div[1]/input")
-    # 关于设置单次计划的时间
-    # 方式一 : 直接输入
-    mz_plan_fre_begin_loc = (
-        "xpath", "//*[@id='app']/div/section/main/div/div[3]/div/div/div[2]/div[3]/div[2]/input[1]")
-    mz_plan_fre_end_loc = ("xpath", "//*[@id='app']/div/section/main/div/div[3]/div/div/div[2]/div[3]/div[2]/input[2]")
-
-    # 新建住院计划元素
-
-    def page_check(self):
-        """
-        页面检查
-        :return:
-        """
-
-    def search_my_plan(self):
-        """
-        全部计划和我的计划筛选
-        :return:
-        """
 
     def search_by_type(self):
         """
@@ -61,43 +34,34 @@ class DpjhPage(BasePage):
         :return:
         """
 
-    def search_keywords(self):
+    def search_by_keywords(self, name):
         """
-        关键字查询
-        :return:
+        根据关键字搜索
         """
+        self.find(webElement["输入计划名称"]).clear()
+        self.find(webElement["输入计划名称"]).send_keys(name)
+        self.find(webElement["搜索"]).click()
+        return self.get_page_source()
 
-    def add_plan(self):
+    def goto_add_plan(self):
         """
         新增计划
         :return:
         """
-        self.find_element_by_text("新增计划").click()
-        self.find_element(*self.add_mz_loc).click()
-        sleep(3)
-        self.find_element(*self.mz_plan_name_loc).send_keys(planTaskName)
-        self.find_element(*self.mz_plan_description_loc).send_keys("^^计划描述")
-        self.find_element(*self.mz_extract_loc).send_keys(20)
+        self.find(webElement["新增计划"]).click()
+        return PlanPage()
 
-        # 日历弹框
-        self.find_element(By.XPATH, "//*[@id='app']/div/section/main/div/div[3]/div/div/div[2]/div[3]/div["
-                                    "2]/input[1]").click()
-        self.set_calendar(2020, 6, 20)
-        self.set_calendar(2020, 8, 20)
-
-        # print("******************************************************")
-        # number = 0
-        # for x in self.find_elements(By.TAG_NAME, "input"):
-        #     number = number + 1
-        #     print(x)
-        # print(number)
-
-        # 保存
+    def edit_new_plan(self):
+        """
+        编辑新计划
+        """
+        plan = self.goto_add_plan()
+        plan.inputPlanName("新计划")
+        plan.inputPlanDescription("开始我的计划")
+        plan.inputExRandom(20, '份数')
+        plan.savePlan()
+        plan.cancellPlan()
         sleep(5)
-        self.find_element(By.XPATH, "//*[@id='app']/div/section/main/div/div[5]/button[2]").click()
-
-        # 取消
-        self.find_element(By.XPATH, "//*[@id='app']/div/section/main/div/div[5]/button[1]").click()
 
     def look_plan(self, planName):
         """

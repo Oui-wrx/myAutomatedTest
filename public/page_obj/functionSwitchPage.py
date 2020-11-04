@@ -4,7 +4,7 @@ from time import sleep
 
 from selenium.webdriver import ActionChains
 
-from public.page_obj.firstPage import FirstPage
+from public.page_obj.main import FirstPage
 
 
 class FunctionSwitchPage(FirstPage):

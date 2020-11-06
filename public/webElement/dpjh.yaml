@@ -21,16 +21,40 @@
   action: send_keys
 搜索:
   by: xpath
-  locator: //*[@id="app"]/div/section/main/div/div[1]/div[2]/div[3]/input
-  action: send_keys
+  locator: //*[@id="app"]/div/section/main/div/div[1]/div[2]/button[1]
+  action: click
 新增计划:
   by: css selector
   locator: button:nth-child(5) > span
+  action: click
+门急诊处方点评:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[2]/div/div/div[2]/div/div[1]
+  action: click
+住院医嘱点评:
+  by: xpath
+  locator: //*[@id="app"]/div/section/main/div/div[2]/div/div/div[2]/div/div[2]
   action: click
 表格:
   by: xpath
   locator: //*[@id="app"]/div/section/main/div/div[4]/div/div[3]/table/tbody
   action: no
+复制计划:
+  by: css selector
+  locator: button.el-button.copy.el-button--default.is-round
+  action: click
+修改:
+  by: css selector
+  locator: button.el-button.change.el-button--default.is-round
+  action: click
+抽取:
+  by: css selector
+  locator: button.el-button.extract.el-button--default.is-round
+  action: click
+删除:
+  by: css selector
+  locator: button.el-button.delete.el-button--danger.is-round
+  action: click
 每页条数:
   by: xpath
   locator: //*[@id="app"]/div/section/main/div/div[5]/div/span[2]/div/div[1]/input

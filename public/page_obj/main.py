@@ -3,6 +3,8 @@
 
 from time import sleep
 
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from public.models.read_yaml_data import read_yamlData
@@ -20,6 +22,7 @@ class Main(BasePage):
     """
     处方点评首页
     """
+
     # _base_url = "http://172.16.0.166:8034/index.html"
 
     def __init__(self, driver: WebDriver = None):
@@ -28,6 +31,7 @@ class Main(BasePage):
         self.get_driver().get("http://172.16.0.166:8034/index.html")
         if self._driver.current_url == 'http://172.16.0.166:8034/index.html#/login':
             Login(self._driver).login("admin", "123").module_click("处方点评")
+
     #
     # def __init__(self, driver: WebDriver = None):
     #     super().__init__(driver)
@@ -35,13 +39,19 @@ class Main(BasePage):
     #     Login(self._driver).login("admin", "123").module_click("处方点评")
 
     def into_menu(self, parent, children):
+        self.find(menuElement["首页"]).click()
         if children == "无":
             self.find(menuElement[parent]).click()
         else:
-            self.find(menuElement[parent]).click()
-            # ActionChains(self.driver).move_to_element(pElement).perform()
+            # self.find(menuElement[parent]).click()
+            pElement = self.find(menuElement[parent])
+            print(self.find(menuElement[parent]).text)
+            ActionChains(self._driver).move_to_element(pElement).perform()
+            sleep(5)
             cElement = self.find(menuElement[children])
-            # self.execute_script_click(cElement)
+            print(self.find(menuElement[children]).text)
+            # self.execute_script_clicak(cElement)
+            sleep(5)
             cElement.click()
         sleep(3)
         return self._driver.current_url
@@ -69,7 +79,12 @@ class Main(BasePage):
             return Main(self._driver)
 
     def goto_dpjh(self):
-        self.into_menu("计划管理", "点评计划")
+        # self.into_menu("计划管理", "点评计划")
+        elements = self._driver.find_elements(By.CSS_SELECTOR, 'el-submenu__title')
+        for ele in elements:
+            if "计划管理" in ele.text:
+                # ele.click()
+                ActionChains(self._driver).move_to_element(ele).perform()
         return DpjhPage(self._driver)
 
 

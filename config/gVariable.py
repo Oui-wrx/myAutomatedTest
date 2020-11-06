@@ -7,10 +7,7 @@ import time
 # localtime = time.localtime()
 # localtime = time.strftime('%Y-%m-%d %H:%M:%S', localtime)
 # # planTaskName = localtime[:10]
-planTaskName = "运行测试"
+planTaskName = "普人民抗菌药测试"    # 目前的话  可能每次都要设置一次
 if __name__ == '__main__':
     print("*********************************")
-    print(planTaskName)
-
-
-#     如果每次运行前  都修改一个
+    pass

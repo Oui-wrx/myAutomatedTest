@@ -68,16 +68,18 @@
   locator: /html/body/div[7]/div[1]/div[1]/ul/li[1]/span
   action: click
 取消:
-  by: xpath
-  locator: //*[@id="app"]/div/section/main/div/div[5]/button[1]
+  by: css selector
+  locator: button.el-button.el-button--default
   action: click
 保存:
+#  by: css selector
+#  locator: button.el-button.el-button--primary
   by: xpath
-  locator: //*[@id="app"]/div/section/main/div/div[5]/button[2]
+  locator: //*[@id="app"]/div/section/main/div/div[7]/button[2]/span
   action: click
 抽取:
-  by: xpath
-  locator: //*[@id="app"]/div/section/main/div/div[5]/button[3]
+  by: css selector
+  locator: button.el-button.el-button--success
   action: click
 更多抽取条件:
   by: xpath

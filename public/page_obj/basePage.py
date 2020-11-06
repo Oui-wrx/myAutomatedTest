@@ -18,10 +18,14 @@ class BasePage:
     def __init__(self,  driver: WebDriver = None):
         if driver is None:
             # 浏览器复用
-            # options = Options()
-            # options.debugger_address = "127.0.0.1:5678"
-            # self._driver = webdriver.Chrome(options=options)
-            self._driver = webdriver.Chrome()
+            # 个人资料路径
+            user_data_dir = r'--user-data-dir=C:\Users\Admin\AppData\Local\Google\Chrome\User Data'
+            options = Options()
+            options.debugger_address = "127.0.0.1:9222"
+            options.add_argument(user_data_dir)
+            self._driver = webdriver.Chrome(options=options)
+            # self._driver = webdriver.Chrome()
+            self._driver.execute_script("document.body.style.zoom='0.75'")
             self._driver.implicitly_wait(3)
         else:
             self._driver = driver
@@ -33,7 +37,7 @@ class BasePage:
         根据定位器  查找单个元素
         """
         loc = (eleName["by"], eleName["locator"])
-        # print(loc)
+        print(loc)
         try:
             WebDriverWait(self._driver, 10, 0.5).until(EC.visibility_of_element_located(loc))
             return self._driver.find_element(*loc)
@@ -54,6 +58,13 @@ class BasePage:
             return False
         except NoSuchElementException:
             return False
+
+    def wait_for(self, eleName):
+        """
+        等待元素可被点击
+        """
+        loc = (eleName["by"], eleName["locator"])
+        WebDriverWait(self._driver, 10, 0.5).until(EC.element_to_be_clickable(loc))
 
     def get_page_source(self):
         """
@@ -94,6 +105,25 @@ class BasePage:
         页面回退
         """
         self._driver.back()
+
+    def execute_script(self, js):
+        """
+        执行js脚本
+        """
+        self._driver.execute_script(js)
+
+    def scroll_page(self, direction):
+        """
+        页面滑动
+        """
+        if direction == "up":
+            self.execute_script("document.documentElement.scrollTop=0")
+        elif direction == "down":
+            self.execute_script("document.documentElement.scrollTop=1000")
+        elif direction == "left":
+            self.execute_script("document.documentElement.scrollLeft=0")
+        else:
+            self.execute_script("document.documentElement.scrollLeft=1000")
 
     def set_calendar(self, year, month, day):
         """
@@ -146,31 +176,6 @@ class BasePage:
         # 点击目标的日
         self._driver.find_element(By.XPATH, "//tr/td/div/span[contains(text(), '20')]").click()
 
-
-# class BasePage:
-#     """
-#     基础页面类，用于其他页的继承
-#     """
-#     def __init__(self, driver):
-#         self.driver = driver
-#
-#     def click_ok(self):
-#         """
-#         适用于仅有确定的弹框
-#         """
-#         self.driver.find_element(By.CSS_SELECTOR, "div.el-message-box__btns > button").click()
-#
-
-#
-#     def open(self):
-#         """
-#         打开登录入口
-#         """
-#         self.driver.get(url)
-#
-
-
-#
 #     def execute_script_click(self, element):
 #         """
 #         使用js执行点击
@@ -212,60 +217,6 @@ class BasePage:
 #         :return:
 #         """
 #         return self.driver.switchTo().alert()
-#
-#     def click_nok_close(self):
-#         """
-#         点击取消，关闭弹框
-#         :return:
-#         """
-#         self.driver.find_element(By.XPATH, "//button/span[contains(text(), '取消')]").click()
-#
-#     def find_elements_by_text(self, text):
-#         """
-#         根据关键字定位元素
-#         待测试
-#         :param text:
-#         :return:
-#         """
-#         s = "[contains(text(), '" + text + "')]"
-#         if self.find_elements(By.XPATH, "//p" + s):
-#             return self.find_elements(By.XPATH, "//p" + s)
-#         elif self.find_elements(By.XPATH, "//li/div" + s):
-#             return self.find_elements(By.XPATH, "//li/div" + s)
-#         elif self.find_elements(By.XPATH, "//button/span" + s):
-#             return self.find_elements(By.XPATH, "//button/span" + s)
-#         elif self.find_elements(By.XPATH, "//li" + s):
-#             return self.find_elements(By.XPATH, "//li" + s)
-#         elif self.find_elements(By.XPATH, "//span" + s):
-#             return self.find_elements(By.XPATH, "//span" + s)
-#         elif self.find_elements(By.XPATH, "//div" + s):
-#             return self.find_elements(By.XPATH, "//div" + s)
-#         else:
-#             return 0
-#
-#     def find_element_by_link_text(self, text_value):
-#         """
-#         link_text查找元素
-#         :param text_value:
-#         :return:
-#         """
-#         return self.driver.find_element_by_link_text(text_value)
-#
-
-#
-#     def open_message(self):
-#         """
-#         打开消息
-#         :return:
-#         """
-#
-#     def get_element_innerText(self, element):
-#         """
-#         获取标签内的文本
-#         :param element:
-#         :return:
-#         """
-#         return element.get_attribute('innerText')
 
 
 if __name__ == '__main__':

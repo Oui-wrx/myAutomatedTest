@@ -10,7 +10,7 @@ from public.page_obj.moreConditionPage import MoreConditionsPage
 webElement = read_yamlData(r"\public\webElement\addPlan.yaml")
 
 
-class PlanPage(BasePage):
+class MzPlanPage(BasePage):
     """
     新增计划页面
     """

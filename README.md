@@ -1,17 +1,19 @@
-环境准备
-- python 官网：https://www.python.org/
-  - 安装：百度（配置环境变量）
-  - 文档：https://docs.python.org/3.9/tutorial/index.html
-- git
-  - 安装：百度（配置）
-- pycharm
-  - 安装：百度
-  - 配置git：百度
-  - 根目录下：git init
-    - 右上角会出现下拉和对勾
-    - 点击对勾，显示代码目录，点击右键，可以选择添加到 .gitignore
-    - 一般可以忽略.idea 和 venv虚拟环境
-
-- 浏览器复用技术
-  
-    
+- CFDP                  项目根路径
+  - config              配置了一些常量（后期可考虑是否可以使用pytest优化）
+  - public              公有代码区
+    - models            封装与页面无关的常见方法
+    - page_obj          封装页面的常见方法
+    - webElement        页面元素存放位置
+  - screenshots         截图存放位置
+  - testcase            测试用例存放位置
+    - login             登录测试用例位置
+       - conftest       配置用例常用方法
+    - other             除登录外的用例位置
+       - conftest       配置用例常用方法
+    - testdata          测试用例数据存放位置
+  - venv                虚拟环境，不用管
+  - conftest            配置全局用例常用方法
+  - pytest.ini          pytest框架配置文件
+  - requirements.txt    项目所需模块
+  - README.md           看我
+  - run_win.bat         执行文件    

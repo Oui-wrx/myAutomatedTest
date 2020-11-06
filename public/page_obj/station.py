@@ -2,7 +2,6 @@
 # @Author : wrx
 
 from time import sleep
-
 from selenium.webdriver.common.action_chains import ActionChains
 from public.models.read_yaml_data import read_yamlData
 from public.page_obj.basePage import BasePage
@@ -13,7 +12,6 @@ webElement = read_yamlData(r"\public\webElement\cpip.yaml")
 class Station(BasePage):
     """
     临床药师智慧平台页面
-
     """
     # _base_url = "http://172.16.0.166:8034/index.html#/loginStation"
 
@@ -54,5 +52,4 @@ class Station(BasePage):
 
 
 if __name__ == '__main__':
-    # print(webElement)
-    pass
+   pass

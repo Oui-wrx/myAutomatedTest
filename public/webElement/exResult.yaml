@@ -1,1 +1,9 @@
 # 抽取结果页面元素
+输入计划名称:
+  by: xpath
+  locator: //input[@placeholder="请输入计划名称关键字"]
+  action: click
+搜索:
+  by: css selector
+  locator: .BtnSearch
+  action: click

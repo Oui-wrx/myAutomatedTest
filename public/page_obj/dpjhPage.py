@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 # @Author : wrx
 
-import time
 from time import sleep
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-from config.gVariable import planTaskName
 from public.models.read_yaml_data import read_yamlData
 from public.page_obj.basePage import BasePage
+from public.page_obj.exResultsPage import ExResultsPage
 from public.page_obj.mzPlanPage import MzPlanPage
+from public.page_obj.zyPlanPage import ZyPlanPage
 
 webElement = read_yamlData(r"\public\webElement\dpjh.yaml")
 
 myPlan = read_yamlData(r"\testcase\testdata\myplan.yaml")
+
+look_name = read_yamlData(r"\testcase\testdata\planName.yaml")
 
 
 class DpjhPage(BasePage):
@@ -21,17 +23,9 @@ class DpjhPage(BasePage):
     点评计划列表页面
     """
 
-    def search_by_type(self):
-        """
-        计划类型筛选
-        :return:
-        """
-
-    def search_by_creator(self):
-        """
-        创建人筛选
-        :return:
-        """
+    def at_page(self):
+        # 后期分离 Url
+        self._driver.get("http://172.16.0.166:8034/index.html#/ReviewPlan/selectPlan")
 
     def search_by_keywords(self, name):
         """
@@ -40,15 +34,14 @@ class DpjhPage(BasePage):
         self.find(webElement["输入计划名称"]).clear()
         self.find(webElement["输入计划名称"]).send_keys(name)
         self.find(webElement["搜索"]).click()
-        sleep(8)
+        sleep(3)
 
     def is_exist_plan(self, planName):
         """
-        是否存在某计划, 在搜索计划的基础上
+        是否存在某计划
+        目前是首页，用到的话后期扩展
         """
-        self.search_by_keywords(planName)
         s = "//div[text()='" + str(planName) + "']"
-        print(s)
         try:
             if self._driver.find_element(By.XPATH, s):
                 return True
@@ -74,19 +67,19 @@ class DpjhPage(BasePage):
         """
         编辑新门诊计划
         """
-        print(planDetail)
+        # print(planDetail)
         plan = self.goto_add_plan(myPlan[planDetail]["计划类型"])
         plan.inputPlanName(myPlan[planDetail]["计划名称"])
         plan.inputPlanDescription(myPlan[planDetail]["计划描述"])
-        print(myPlan[planDetail]["抽取方式"][4:6])
-        print(myPlan[planDetail]["抽取方式"][6:])
+        # print(myPlan[planDetail]["抽取方式"][4:6])
+        # print(myPlan[planDetail]["抽取方式"][6:])
+        sleep(3)
         plan.inputExRandom(myPlan[planDetail]["抽取方式"][4:6], myPlan[planDetail]["抽取方式"][6:7])
         if myPlan[planDetail]["动作"] == '保存':
-            sleep(3)
-            self.scroll_page("down")
+            self.scroll_page_by_js("down")
             plan.savePlan()
-            sleep(4)
-        return DpjhPage(self._driver)
+            plan.cancellPlan()
+        # return DpjhPage(self._driver)
 
     def look_plan(self, planName):
         """
@@ -94,66 +87,91 @@ class DpjhPage(BasePage):
         :return:
         """
         s = "//div[text()='" + str(planName) + "']"
-        print(s)
+        # print(s)
         self._driver.find_element(By.XPATH, s).click()
-        sleep(5)
 
-    # def copy_plan(self, planName):
-    #     """
-    #     复制计划
-    #     :return:
-    #     """
-    #     self.look_plan(planName)
-    #     self.find(webElement["复制计划"]).click()
-    #     print("********************************")
-    #     print(self.find_element_by_text("复制计划"))
-    #     self.find_element(*self.mz_plan_name_loc).send_keys(str(planTaskName)+"-复制计划")
-    #     self.find_element_by_text("保存").click()
-    #     # self.find_element(By.XPATH, "//*[@id='app']/div/section/main/div/div[5]/button[2]").click()
-    #     self.find_element_by_text("取消").click()
-    #
-    # def modify_plan(self):
-    #     """
-    #     修改计划
-    #     :return:
-    #     """
-    #
-    # def plan_extract(self):
-    #     """
-    #     列表页抽取计划
-    #     :return:
-    #     """
-    #     self.look_plan(planTaskName)
-    #     self.find_element_by_text("抽取").click()
-    #     sleep(3)
-    #     # 通过属性定位时间选择器
-    #     element = self.find_element(By.CSS_SELECTOR, "input[placeholder='开始日期']")
-    #     print("*********************************************")
-    #     print(self.get_element_innerText(element).strip())
-    #     if self.get_element_innerText(element).strip() == "":
-    #         print("为什么会进来这里呢？")
-    #         element.click()
-    #         sleep(5)
-    #         self.set_calendar(2020, 6, 20)
-    #         self.set_calendar(2020, 8, 20)
-    #     self.find_element(By.XPATH, "//div[@class='el-dialog__footer']/span/button[@class='el-button "
-    #                                 "el-button--primary']").click()
-    #     sleep(3)
+    def copy_plan(self, planType, planName, newName):
+        """
+        复制计划：待复制计划类型 --- 待复制计划名称 --- 复制后新计划名称
+        """
+        self.look_plan(planName)
+        self.find(webElement["复制计划"]).click()
+        plan = object
+        if planType == "m":  # 待复制计划为门诊计划
+            plan = MzPlanPage(self._driver)
+        else:  # 待复制计划为住院计划
+            plan = ZyPlanPage(self._driver)
+        sleep(3)
+        self._driver.refresh()
+        plan.inputPlanName(newName)
+        self.scroll_page_by_js("down")
+        sleep(2)
+        plan.savePlan()
+        sleep(2)
+        plan.cancellPlan()
+
+    def modify_plan(self, planName):
+        """
+        修改计划
+        :return:
+        """
+        self.look_plan(planName)
+        self.find(webElement["修改"]).click()
+        sleep(3)
+        self._driver.refresh()
+        self.scroll_page_by_js("down")
+        return self.get_page_source()
+
+    def plan_extract(self, planName, startTime=None, endTime=None):
+        """
+        列表页抽取计划
+        """
+        self.look_plan(planName)
+        self.find(webElement["抽取"]).click()
+        element = self.find(webElement["开始时间"])
+        # 根据属性获取表内的value
+        if element.get_attribute("value").strip() == "":
+            element.click()
+            self.set_calendar(*(startTime.split('-')))
+            self.set_calendar(*(endTime.split('-')))
+        self.find(webElement["抽取确定"]).click()
+        if "请调整计划的抽取条件后再试" in self.get_page_source():
+            return True
+        elif "马上查看" in self.get_page_source():
+            self.find(webElement["马上查看"]).click()
+            if "生成点评计划" in self.get_page_source():
+                return True
+        else:
+            return False
 
     def delete_plan(self, planName):
         """
         删除计划   目前是确定删除  后期扩展取消删除
         :return:
         """
-        self.scroll_page("right")
+        self.scroll_page_by_js("right")
         self.search_by_keywords(planName)
-        sleep(4)
+        sleep(2)
         self.look_plan(planName)
-        self.scroll_page("down")
+        self.scroll_page_by_js("down")
         self.find(webElement["删除"]).click()
         self.click_confirm()
-        sleep(4)
+        sleep(2)
+
+    def search_by_type(self):
+        """
+        计划类型筛选
+        :return:
+        """
+
+    def search_by_creator(self):
+        """
+        创建人筛选
+        :return:
+        """
 
 
 if __name__ == '__main__':
-    pass
+    print(look_name)
+    print(look_name[3])
+    print(len(look_name[2]))

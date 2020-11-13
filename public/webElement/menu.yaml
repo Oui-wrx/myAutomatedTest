@@ -10,10 +10,8 @@
 #  locator: //*[@id="app"]/div/header/div/div/div/ul/li[2]/div[1]
   action:
 点评计划:
-  by: css selector
-  locator: .el-menu--horizontal:nth-child(7) .el-menu-item:nth-child(1) > span
-#  by: xpath
-#  locator: /html/body/div[2]/ul/li[1]/span     #  ??
+  by: xpath
+  locator: /html/body/div[2]/ul/li[1]/span
 抽取结果:
   by: css selector
   locator: body > div:nth-child(6) > ul > li:nth-child(2) > span

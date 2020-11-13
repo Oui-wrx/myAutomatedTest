@@ -60,13 +60,13 @@ class MzPlanPage(BasePage):
         :param unit: 抽取医生的单位
         :return: 设置好的随机抽取条件
         """
-        if unit is '份' and down is None and up is None:
+        if unit == '份' and down is None and up is None:
             self.find(webElement["随机抽取份数"]).send_keys(num)  # 随机抽取（）份
-        elif unit is "%" and down is None and up is None:
+        elif unit == "%" and down is None and up is None:
             self.find(webElement["随机抽取%"]).send_keys(num)  # 随机抽取（）%
         else:
             self.find(webElement["随机抽取处方医生数"]).send_keys(num)  # 随机（）医生
-            if unit is '位':
+            if unit == '位':
                 self.find(webElement["随机抽取处方医生单位"]).click()
                 self.find(webElement["随机抽取处方医生位"]).click()  # 设置（）位医生  默认为%
             self.find(webElement["随机抽取处方医生下限"]).send_keys(down)

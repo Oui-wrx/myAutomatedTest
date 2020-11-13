@@ -51,6 +51,18 @@
   by: css selector
   locator: button.el-button.extract.el-button--default.is-round
   action: click
+开始时间:
+  by: css selector
+  locator: input[placeholder='开始日期']
+  action: click
+抽取确定:
+  by: css selector
+  locator: span > button.el-button.el-button--primary
+  action: click
+马上查看:
+  by: css selector
+  locator: "div:nth-child(3) > div > div.el-dialog__footer  button.el-button.el-button--primary"
+  action: click
 删除:
   by: css selector
   locator: button.el-button.delete.el-button--danger.is-round

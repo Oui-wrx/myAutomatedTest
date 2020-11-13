@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 # @Author  : wrx
-from time import sleep
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, JavascriptException
@@ -17,15 +16,17 @@ class BasePage:
 
     def __init__(self,  driver: WebDriver = None):
         if driver is None:
-            # 浏览器复用
+            # 浏览器复用  能力有限  目前的测试环境 自己尝试未果
             # 个人资料路径
-            user_data_dir = r'--user-data-dir=C:\Users\Admin\AppData\Local\Google\Chrome\User Data'
-            options = Options()
-            options.debugger_address = "127.0.0.1:9222"
-            options.add_argument(user_data_dir)
+            # user_data_dir = r'--user-data-dir=C:\Users\Admin\AppData\Local\Google\Chrome\User Data'
+            # options = Options()
+            # options.debugger_address = "127.0.0.1:9222"
+            # options.add_argument(user_data_dir)
+            # self._driver = webdriver.Chrome(options=options)
+            options = webdriver.ChromeOptions()
+            options.add_experimental_option('w3c', False)
             self._driver = webdriver.Chrome(options=options)
-            # self._driver = webdriver.Chrome()
-            self._driver.execute_script("document.body.style.zoom='0.75'")
+            self._driver.maximize_window()
             self._driver.implicitly_wait(3)
         else:
             self._driver = driver
@@ -112,7 +113,7 @@ class BasePage:
         """
         self._driver.execute_script(js)
 
-    def scroll_page(self, direction):
+    def scroll_page_by_js(self, direction):
         """
         页面滑动
         """
@@ -127,9 +128,12 @@ class BasePage:
 
     def set_calendar(self, year, month, day):
         """
-        时间段设置
+        时间段设置   这样费劲  是因为  采用js的设置没成功  有时间研究一下
         :return:
         """
+        year = int(year)
+        month = int(month)
+        day = int(day)
         # 获取年月标签元素
         element = self._driver.find_element(By.XPATH, "//div[1]/div/div[1]/div/div[contains(text(), '年')]")
         # 获取标签的年

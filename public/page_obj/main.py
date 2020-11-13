@@ -23,20 +23,12 @@ class Main(BasePage):
     处方点评首页
     """
 
-    # _base_url = "http://172.16.0.166:8034/index.html"
+    _base_url = "http://172.16.0.166:8034/index.html"
 
     def __init__(self, driver: WebDriver = None):
         super().__init__(driver)
-        # self.get_driver().get(self._base_url)
-        self.get_driver().get("http://172.16.0.166:8034/index.html")
         if self._driver.current_url == 'http://172.16.0.166:8034/index.html#/login':
             Login(self._driver).login("admin", "123").module_click("处方点评")
-
-    #
-    # def __init__(self, driver: WebDriver = None):
-    #     super().__init__(driver)
-    #     self.get_driver().get("http://172.16.0.166:8034/index.html")
-    #     Login(self._driver).login("admin", "123").module_click("处方点评")
 
     def into_menu(self, parent, children):
         self.find(menuElement["首页"]).click()
@@ -47,11 +39,9 @@ class Main(BasePage):
             pElement = self.find(menuElement[parent])
             print(self.find(menuElement[parent]).text)
             ActionChains(self._driver).move_to_element(pElement).perform()
-            sleep(5)
+            sleep(2)
             cElement = self.find(menuElement[children])
-            print(self.find(menuElement[children]).text)
-            # self.execute_script_clicak(cElement)
-            sleep(5)
+            # print(self.find(menuElement[children]).text)
             cElement.click()
         sleep(3)
         return self._driver.current_url
@@ -79,14 +69,28 @@ class Main(BasePage):
             return Main(self._driver)
 
     def goto_dpjh(self):
-        # self.into_menu("计划管理", "点评计划")
-        elements = self._driver.find_elements(By.CSS_SELECTOR, 'el-submenu__title')
-        for ele in elements:
-            if "计划管理" in ele.text:
-                # ele.click()
-                ActionChains(self._driver).move_to_element(ele).perform()
+        self.into_menu("计划管理", "点评计划")
+        # elements = self._driver.find_elements(By.CSS_SELECTOR, 'el-submenu__title')
+        # for ele in elements:
+        #     if "计划管理" in ele.text:
+        #         # ele.click()
+        #         ActionChains(self._driver).move_to_element(ele).perform()
         return DpjhPage(self._driver)
+
+    def ss(self):   # 测试函数
+        # c = self._driver.find_element_by_xpath("//div['计划管理' in @text()]")
+        # c = self._driver.find_element_by_css_selector('#app > div > header > div > div > div > ul > li:nth-child(5)')
+        eles = self._driver.find_elements_by_css_selector('.el-submenu__title')
+        for ele in eles:
+            print(ele.text)
+            if "点评工作" in ele.text:    # 计划管理->点评工作  点评工作->结果公示->  点评结果->哪也不去
+                ActionChains(self._driver).move_to_element(ele).perform()
+            else:
+                # print("定位错误")
+                pass
+        sleep(5)
 
 
 if __name__ == '__main__':
-    Main().log_out("LogoutY")
+    # Main().log_out("LogoutY")
+    Main().ss()

@@ -1,37 +1,56 @@
-# # -*- coding: utf-8 -*-
-# # @Author : wrx
-# from time import sleep
-#
-# from selenium.webdriver import ActionChains
-# from selenium.webdriver.common.by import By
-#
-# from config.gVariable import planTaskName
-# from public.page_obj.basePage import BasePage
-#
-#
-# class ExResultsPage(BasePage):
-#     """
-#     抽取结果列表页
-#     """
-#
-#     def __init__(self, driver):
-#         super().__init__(driver)
-#         self.driver.get("http://172.16.0.166:8034/index.html#/ReviewPlan/extractResults")
-#         # self.driver.refresh()
-#         sleep(2)
-#
-#     def search_myplan(self):
-#         """
-#         筛选自己的计划
-#         :return:
-#         """
-#
-#     def search_by_type(self):
-#         """
-#         通过计划类型筛选抽取结果
-#         :return:
-#         """
-#
+# -*- coding: utf-8 -*-
+# @Author : wrx
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
+
+from public.models.read_yaml_data import read_yamlData
+from public.page_obj.basePage import BasePage
+
+webElement = read_yamlData(r"\public\webElement\exResult.yaml")
+
+
+class ExResultsPage(BasePage):
+    """
+    抽取结果列表页
+    """
+
+    def at_page(self):
+        # 后期拆分 Url
+        self._driver.get("http://172.16.0.166:8034/index.html#/ReviewPlan/extractResults")
+
+    def search_by_keywords(self, name):
+        """
+        根据关键字搜索
+        """
+        self.find(webElement["输入计划名称"]).clear()
+        self.find(webElement["输入计划名称"]).send_keys(name)
+        self.find(webElement["搜索"]).click()
+
+    def is_exist_plan(self, planName):
+        """
+        是否存在某计划
+        目前是首页，用到的话后期扩展
+        """
+        s = "//div[text()='" + str(planName) + "']"
+        try:
+            if self._driver.find_element(By.XPATH, s):
+                return True
+            else:
+                return False
+        except NoSuchElementException:
+            return False
+
+    def openExResult(self, planName):
+        """
+        查看某抽取结果
+        :return:
+        """
+        s = "//div[text()='" + str(planName) + "']"
+        try:
+            self._driver.find_element(By.XPATH, s).click()
+        except Exception:
+            print("抽取结果打开失败")
+
 #     def search_by_creater(self):
 #         """
 #         通过创建人创建计划
@@ -43,16 +62,6 @@
 #         通过关键字搜索
 #         :return:
 #         """
-#
-#     def openExResult(self):
-#         """
-#         查看计划详情
-#         :return:
-#         """
-#         sleep(3)
-#         self.find_element_by_text(planTaskName).click()
-#         # self.find_element_by_text().click()
-#         sleep(3)
 #
 #     def generateDpTask(self):
 #         self.openExResult()

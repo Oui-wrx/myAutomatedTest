@@ -1,10 +1,11 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# @Time    : 2020/9/8 16:41
 # @Author  : wrx
-# @FileName: setting.py
-# @Software: PyCharm
-import os
 
-ROOTPATH = "D:\\CFDP"
-SCREENSHOOT = "D:\\CFDP\\screenshot"
+# 项目根目录
+ROOTPATH = "D://CFDP"
+
+# 错误截图存放位置
+SCREENSHOOT = "D://CFDP//screenshot//"
+
+# 系统首页地址
+base_url = 'http://172.16.0.166:8034/index.html'

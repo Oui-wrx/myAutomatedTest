@@ -9,6 +9,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
+from config.setting import SCREENSHOOT
+
 
 class BasePage:
     _driver = None
@@ -180,47 +182,14 @@ class BasePage:
         # 点击目标的日
         self._driver.find_element(By.XPATH, "//tr/td/div/span[contains(text(), '20')]").click()
 
-#     def execute_script_click(self, element):
-#         """
-#         使用js执行点击
-#         """
-#         try:
-#             self.driver.execute_script("arguments[0].click();", element)
-#         except JavascriptException:
-#             element.click()
-#
-#     def switch_frame(self, loc):
-#         """
-#         多表单嵌套切换
-#         :param loc: 传元素的属性值
-#         :return: 定位到的元素
-#         """
-#         return self.driver.switch_to.frame(loc)
-#         # 关于异常处理
-#
-#     def switch_windows(self, loc):
-#         """
-#         多窗口切换
-#         :param loc:
-#         :return:
-#         """
-#         return self.driver.switch_to_window(loc)
-#         # 关于异常处理
-#
-#     def switch_alert(self):
-#         """
-#         弹框处理
-#         :return:
-#         """
-#         return self.driver.switch_to.alert.accept()
-#         # 关于异常处理
-#
-#     def switch_to_alert(self):
-#         """
-#         进入alert
-#         :return:
-#         """
-#         return self.driver.switchTo().alert()
+    def take_screenshot(self, screen_name):
+        file_path = SCREENSHOOT
+        try:
+            screen_name = file_path + screen_name
+            # self._driver.get_screenshot_as_file(screen_name)
+            self._driver.save_screenshot(screen_name)
+        except Exception as e:
+            return False
 
 
 if __name__ == '__main__':

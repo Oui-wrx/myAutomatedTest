@@ -4,8 +4,9 @@
 import allure
 import pytest
 
+from public.models.myunit import MyUnit
 from public.models.read_yaml_data import read_yamlData
-from public.page_obj.main import Main
+from public.page_obj.dpjhPage import DpjhPage
 
 plan_type = [1, 2]
 planName = ["天上人间", "抗菌药物点评"]
@@ -14,15 +15,10 @@ look_name = read_yamlData(r"\testcase\testdata\planName.yaml")
 
 
 @allure.feature("点评计划列表页测试用例")
-class Test_dpjh:
-
-    def setup_class(self):
-        self.dpjhPage = Main().goto_dpjh()
-
-    def teardown_class(self):
-        self.dpjhPage.get_driver().quit()
+class Test_dpjh(MyUnit):
 
     def setup(self):
+        self.dpjhPage = DpjhPage(self.main.get_driver())
         self.dpjhPage.at_page()
 
     @allure.story("新增计划")
@@ -50,8 +46,7 @@ class Test_dpjh:
     @allure.story("计划抽取")
     @pytest.mark.parametrize("planName, startTime, endTime", [look_name[3]])
     def test_exPlan(self, planName, startTime, endTime):
-        ss = self.dpjhPage.plan_extract(planName, startTime, endTime)
-        assert "马上查看" in
+        assert self.dpjhPage.plan_extract(planName, startTime, endTime), "计划抽取有点问题"
 
     @allure.story("计划删除")
     @pytest.mark.parametrize("planName", look_name[1:2])

@@ -5,6 +5,8 @@ from time import sleep
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
+
+from config.setting import base_url
 from public.models.read_yaml_data import read_yamlData
 from public.page_obj.basePage import BasePage
 from public.page_obj.exResultsPage import ExResultsPage
@@ -25,7 +27,7 @@ class DpjhPage(BasePage):
 
     def at_page(self):
         # 后期分离 Url
-        self._driver.get("http://172.16.0.166:8034/index.html#/ReviewPlan/selectPlan")
+        self._driver.get( base_url + "#/ReviewPlan/selectPlan")
 
     def search_by_keywords(self, name):
         """
@@ -35,6 +37,7 @@ class DpjhPage(BasePage):
         self.find(webElement["输入计划名称"]).send_keys(name)
         self.find(webElement["搜索"]).click()
         sleep(3)
+        self.take_screenshot("cdnj.png")
 
     def is_exist_plan(self, planName):
         """
@@ -139,7 +142,8 @@ class DpjhPage(BasePage):
             return True
         elif "马上查看" in self.get_page_source():
             self.find(webElement["马上查看"]).click()
-            if "生成点评计划" in self.get_page_source():
+            sleep(3)
+            if "生成点评任务" in self.get_page_source():
                 return True
         else:
             return False

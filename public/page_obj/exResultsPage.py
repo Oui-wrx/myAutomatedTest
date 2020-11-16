@@ -3,6 +3,7 @@
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
+from config.setting import base_url
 from public.models.read_yaml_data import read_yamlData
 from public.page_obj.basePage import BasePage
 
@@ -16,7 +17,7 @@ class ExResultsPage(BasePage):
 
     def at_page(self):
         # 后期拆分 Url
-        self._driver.get("http://172.16.0.166:8034/index.html#/ReviewPlan/extractResults")
+        self._driver.get( base_url + "#/ReviewPlan/extractResults")
 
     def search_by_keywords(self, name):
         """

@@ -1,8 +1,8 @@
 - CFDP                  项目根路径
-  - config              配置了一些常量（后期可考虑是否可以使用pytest优化）
+  - config              配置了一些常量（项目路径、访问路径、截图存放路径）
   - public              公有代码区
-    - models            封装与页面无关的常见方法
-    - page_obj          封装页面的常见方法
+    - models            封装与页面无关的常见方法（与driver无关的操作）
+    - page_obj          封装页面的常见方法（与driver相关的操作）
     - webElement        页面元素存放位置
   - screenshots         截图存放位置
   - testcase            测试用例存放位置
